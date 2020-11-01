@@ -154,7 +154,13 @@ public class MetabolicNetwork {
 
 	public static void main(String[] args) throws Exception {
 		MetabolicNetworkXMLLoader loader = new MetabolicNetworkXMLLoader();
+		if (args.length != 2) {
+			throw new Exception("You need to specify the input path to the file with the metabolic network (in XML), " +
+					"and the path to the file in which you want to write the graph of the network, in that order");
+		}
+
 		MetabolicNetwork network = loader.loadNetwork(args[0]);
+		String outFilePath = args[1];
 		System.out.println("Enzymes");
 		for(Enzyme enzyme:network.enzymes.values()) {
 			System.out.println(enzyme.getId()+" "+enzyme.getName());
@@ -189,10 +195,9 @@ public class MetabolicNetwork {
 		}
 		System.out.println();
 
-		String filepath = "./data/e_coli_network.out";
 		network.buildMetabolicNetwork();
-		System.out.println("Writing Metabolic Network into " + filepath);
-		network.writeNetwork(filepath);
+		System.out.println("Writing Metabolic Network into " + outFilePath);
+		network.writeNetwork(outFilePath);
 		System.out.println("Writing successful!!!");
 	}
 }
